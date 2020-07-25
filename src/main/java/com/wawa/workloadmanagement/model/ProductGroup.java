@@ -2,6 +2,13 @@ package com.wawa.workloadmanagement.model;
 
 public class ProductGroup {
 	Integer productGroupId;
-	String productType;
-	
+	ProductType productType;
+
+	public Integer getProductGroupId() {
+		return productGroupId;
+	}
+
+	public ProductType getProductType() {
+		return productType;
+	}
 }

@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.wawa.workloadmanagement.Dao.OrderDAO;
+import com.wawa.workloadmanagement.model.OrderState;
 import org.springframework.stereotype.Service;
 
 import com.wawa.workloadmanagement.model.Order;
@@ -14,7 +16,11 @@ import com.wawa.workloadmanagement.model.Product;
 @Service
 public class OrderQueueService {
 	private Map<Integer, Queue<OrderLineItem>> orderQueueByProductGroupIdMap = new HashMap<>();
-	
+
+	@Autowire
+	OrderDAO orderDAO;
+
+
 	public boolean pushOrder(Order order) {
 		for(OrderLineItem orderItem : order.getOrderLineItems()) {
 			Integer productGroupId = orderItem.getProduct().getProductGropId();
@@ -23,16 +29,19 @@ public class OrderQueueService {
 			}
 			orderQueueByProductGroupIdMap.get(productGroupId).add(orderItem);
 		}
+		order.setState(OrderState.INPROGRESS);
+		orderDAO.updateOrder(order);
 		return true;
 	}
 	
-	public OrderLineItem receiveNextOrderLineItem(Integer productGroupId) {
+	public Queue<OrderLineItem>  receiveNextOrderLineItem(Integer productGroupId) {
 		Queue<OrderLineItem> lineItemQueue = orderQueueByProductGroupIdMap.get(productGroupId);
 		
 		if(lineItemQueue == null) {
-			return
+			return null;
 		}
-		return orderQueue.remove();
+		 orderQueue.remove();
+		return lineItemQueue;
 	}
 	
 	

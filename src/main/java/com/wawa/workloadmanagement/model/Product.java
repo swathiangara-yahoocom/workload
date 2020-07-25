@@ -4,7 +4,7 @@ public class Product {
 	Integer productId;
 	String productName;
 	Double price;
-	Integer productGropId;
+	ProductGroup productGrop;
 	
 	public Integer getProductId() {
 		return productId;
@@ -24,10 +24,10 @@ public class Product {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Integer getProductGropId() {
-		return productGropId;
+	public ProductGroup getProductGroup() {
+		return productGrop;
 	}
-	public void setProductGropId(Integer productGropId) {
+	public void setProductGropId(ProductGroup productGropId) {
 		this.productGropId = productGropId;
 	}
 	
